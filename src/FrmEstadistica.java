@@ -66,7 +66,7 @@ public class FrmEstadistica extends JFrame {
 
         txtEstadistica = new JTextField();
         txtEstadistica.setBounds(220, 200, 100, 25);
-        txtEstadistica.setEnabled(false);
+        txtEstadistica.setEditable(false);
         getContentPane().add(txtEstadistica);
 
        //  Agregar Eventos
@@ -180,8 +180,45 @@ public class FrmEstadistica extends JFrame {
     }
 
     // hacer el minimo 
+    private double minimo(){
+        if (totalDatos >0 ) {
+            double min = muestra[0];
+            for (int i = 1; i < totalDatos; i++) {
+                if (muestra[i] < min) {
+                    min = muestra[i];
+                    }
+        }
+        return min;
+    }else {
+        return 0;
+        }
+    }
 
     // hacer la moda
+    private double modas() {
+        int[] frecuencia = new int[totalDatos];  // Arreglo para contar repeticiones
+        int maxFrecuencia = 0;  // Máxima frecuencia encontrada
+        double moda = muestra[0];  // Suponemos que la moda es el primer elemento
+    
+        // Contar la frecuencia de cada número en la muestra
+        for (int i = 0; i < totalDatos; i++) {
+            frecuencia[i] = 0;  // Inicializamos el contador en 0
+            for (int j = 0; j < totalDatos; j++) {
+                if (muestra[j] == muestra[i]) {
+                    frecuencia[i]++;
+                }
+            }
+    
+            // Si encontramos un número con mayor frecuencia, lo actualizamos
+            if (frecuencia[i] > maxFrecuencia) {
+                maxFrecuencia = frecuencia[i];
+                moda = muestra[i];
+            }
+        }
+    
+        return moda;  // Retornamos la moda encontrada
+    }
+    
 
     private void calcularEstadistica(){
         switch (cmbEstadistica.getSelectedIndex()) {
@@ -199,6 +236,11 @@ public class FrmEstadistica extends JFrame {
             case 3:
                 txtEstadistica.setText(String.valueOf(maximo()));
                 break;
+            case 4:
+                txtEstadistica.setText(String.valueOf(minimo()));
+                break;
+            case 5:                     // convierte a cada de texto lo que devuelve las sub-rutinas
+                txtEstadistica.setText(String.valueOf(modas()));
 
         }
     }
